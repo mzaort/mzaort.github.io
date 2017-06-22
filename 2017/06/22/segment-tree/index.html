@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>segment-tree | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="Segment TreeSegment tree is a data structure suitable to find the characteristic value of a consecutive list of values (called segment or range). To a segment tree, an input array is bound. The tree r">
+<meta name="keywords" content="data structure,tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="segment-tree">
+<meta property="og:url" content="http://yoursite.com/2017/06/22/segment-tree/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Segment TreeSegment tree is a data structure suitable to find the characteristic value of a consecutive list of values (called segment or range). To a segment tree, an input array is bound. The tree r">
+<meta property="og:updated_time" content="2017-06-22T15:20:14.929Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="segment-tree">
+<meta name="twitter:description" content="Segment TreeSegment tree is a data structure suitable to find the characteristic value of a consecutive list of values (called segment or range). To a segment tree, an input array is bound. The tree r">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,36 +154,66 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-segment-tree" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      segment-tree
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/22/segment-tree/" class="archive-article-date">
+
+        
+        <a href="/2017/06/22/segment-tree/" class="archive-article-date">
   	<time datetime="2017-06-22T14:09:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-22</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/22/segment-tree/">segment-tree</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Segment-Tree"><a href="#Segment-Tree" class="headerlink" title="Segment Tree"></a>Segment Tree</h1><p>Segment tree is a data structure suitable to find the characteristic value of a consecutive list of values (called segment or range).</p>
+<p>To a segment tree, an input array is bound. The tree records the intermediate characteristic values of a range of the array. Using these values, it allows a fast search of characteristic value with time complexity log(n) and update of array with time complexity log(n). In summary, segment tree is suitable to handle ranges, such as to find the maximun/minimal value of a range, or the sum of a range.</p>
+<p>To begin with, let’s explore the basic theory of segment tree.</p>
+<blockquote>
+<p>What kind of problem can be solved by a segmented tree? First, segment tree is to find a value related to a range. Let F[i, j] represent the function to get the value. F should satisfy F[i, j] = f(F[i, mid], F[mid+ 1, j]). Namely, the whole range’s characteristic value can be retrieve/calculated by merging the two characteristic values of two subsegments. f is the merging fucntion. For example,  Max[i, j] = Math.max(Max[i, mid], Max[mid + 1, j]), and Sum[i, j] = Sum[i, mid] + Sum[mid + 1, j];</p>
+<p>Formal definition: Segment tree is bound with an input array V. V has zero elements then the tree is empty. V has one element then the tree has only one root and stores a value F[0, 0]. Otherwise, segment tree has a root. Root.left is bound with V[0, mid], root.right is bound with V[mid + 1, len -1] and root.value stores f(left.value, right.value);</p>
+</blockquote>
+<p>Based on the formal definition, it is very easy to initialize a segment tree. The following code shows how to build it to calculate the max value of any range.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SegmentTree</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</div><div class="line">		<span class="comment">/**</span></div><div class="line">		 * range beginning inclusive</div><div class="line">		 */</div><div class="line">		<span class="keyword">int</span> frm;</div><div class="line"></div><div class="line">		<span class="comment">/**</span></div><div class="line">		 * range beginning inclusive</div><div class="line">		 */</div><div class="line">		<span class="keyword">int</span> end;</div><div class="line"></div><div class="line">		<span class="comment">/**</span></div><div class="line">		 * optimal value in range [&#123;<span class="doctag">@link</span> #frm&#125;, &#123;<span class="doctag">@link</span> #end&#125;]</div><div class="line">		 */</div><div class="line">		<span class="keyword">int</span> value;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> frm, <span class="keyword">int</span> end, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">			<span class="keyword">super</span>();</div><div class="line">			<span class="keyword">this</span>.frm = frm;</div><div class="line">			<span class="keyword">this</span>.end = end;</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * input array</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span>[] values;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * parent[index] records values[index]'s location in the segment tree.</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span>[] parent;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * array representative of segment tree</div><div class="line">	 */</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> TreeNode[] nodes;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SegmentTree</span><span class="params">(<span class="keyword">int</span>[] values, <span class="keyword">int</span>[] parent, TreeNode[] nodes)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.values = values;</div><div class="line">		<span class="keyword">this</span>.parent = parent;</div><div class="line">		<span class="keyword">this</span>.nodes = nodes;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> frm</div><div class="line">	 * <span class="doctag">@param</span> end</div><div class="line">	 * <span class="doctag">@return</span> the max value in values[frm ... end]</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxValue</span><span class="params">(<span class="keyword">int</span> frm, <span class="keyword">int</span> end)</span> </span>&#123;</div><div class="line">		<span class="keyword">assert</span> (<span class="number">0</span> &lt;= frm &amp;&amp; frm &lt;= end &amp;&amp; end &lt; values.length);</div><div class="line">		<span class="keyword">return</span> maxValue(<span class="number">0</span>, frm, end);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> i root node index</div><div class="line">	 * <span class="doctag">@param</span> frm</div><div class="line">	 * <span class="doctag">@param</span> end</div><div class="line">	 * <span class="doctag">@return</span> the max value in values[frm ... end]</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">maxValue</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> frm, <span class="keyword">int</span> end)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (nodes[i].frm == frm &amp;&amp; nodes[i].end == end) &#123; <span class="keyword">return</span> nodes[i].value; &#125;</div><div class="line">		<span class="keyword">int</span> left = i * <span class="number">2</span> + <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> right = left + <span class="number">1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> max = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">if</span> (nodes[left] != <span class="keyword">null</span> &amp;&amp; nodes[left].end &gt;= frm) &#123;</div><div class="line">			max = Math.max(max, maxValue(left, frm, Math.min(nodes[left].end, end)));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (nodes[right] != <span class="keyword">null</span> &amp;&amp; nodes[right].frm &lt;= end) &#123;</div><div class="line">			max = Math.max(max, maxValue(right, Math.max(nodes[right].frm, frm), end));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> max;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> i index of values</div><div class="line">	 * <span class="doctag">@param</span> value to be set</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateValue</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> value)</span> </span>&#123;</div><div class="line">		<span class="keyword">assert</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; values.length);</div><div class="line">		<span class="keyword">int</span> p = parent[i];</div><div class="line">		values[i] = value;</div><div class="line">		nodes[p].value = value;</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> q = (p - <span class="number">1</span>) / <span class="number">2</span>; p &gt; <span class="number">0</span> &amp;&amp; nodes[q].value &lt; value; p = q, q = (q - <span class="number">1</span>) / <span class="number">2</span>) &#123;</div><div class="line">			nodes[q].value = value;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> values</div><div class="line">	 * <span class="doctag">@return</span> a segment tree recording max values</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SegmentTree <span class="title">initialize</span><span class="params">(<span class="keyword">int</span>[] values)</span> </span>&#123;</div><div class="line">		<span class="keyword">assert</span> (values != <span class="keyword">null</span> &amp;&amp; values.length &gt; <span class="number">0</span>);</div><div class="line">		<span class="keyword">int</span> length = values.length;</div><div class="line">		TreeNode[] nodes = <span class="keyword">new</span> TreeNode[maxLength(length)];</div><div class="line">		<span class="keyword">int</span>[] parent = <span class="keyword">new</span> <span class="keyword">int</span>[length];</div><div class="line">		initializeTree(nodes, <span class="number">0</span>, values, <span class="number">0</span>, length - <span class="number">1</span>, parent);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> SegmentTree(values, parent, nodes);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">initializeTree</span><span class="params">(TreeNode[] nodes, <span class="keyword">int</span> root, <span class="keyword">int</span>[] values, <span class="keyword">int</span> frm, <span class="keyword">int</span> end, <span class="keyword">int</span>[] parent)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (frm &gt; end) <span class="keyword">return</span>;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (frm == end) &#123;</div><div class="line">			nodes[root] = <span class="keyword">new</span> TreeNode(frm, end, values[frm]);</div><div class="line">			parent[frm] = root;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">int</span> split = frm + (end - frm) / <span class="number">2</span>;</div><div class="line">			<span class="keyword">int</span> left = root * <span class="number">2</span> + <span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> right = left + <span class="number">1</span>;</div><div class="line">			initializeTree(nodes, left, values, frm, split, parent);</div><div class="line">			initializeTree(nodes, right, values, split + <span class="number">1</span>, end, parent);</div><div class="line">			<span class="keyword">int</span> max = Math.max(nodes[left].value, nodes[right].value);</div><div class="line">			nodes[root] = <span class="keyword">new</span> TreeNode(frm, end, max);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// @formatter:off</span></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * most sparse case, the height of tree for # of values</div><div class="line">	 * ------------------</div><div class="line">	 * |node	| height</div><div class="line">	 * |1		| 1</div><div class="line">	 * |3		| 3</div><div class="line">	 * |5		| 4</div><div class="line">	 * |9		| 5</div><div class="line">	 * |17		| 6 </div><div class="line">	 * ------------------</div><div class="line">	 */</div><div class="line">	<span class="comment">// @formatter:on</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxLength</span><span class="params">(<span class="keyword">int</span> numberOfLeaves)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (numberOfLeaves == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> maxHeight = (<span class="keyword">int</span>) (Math.ceil(Math.log(numberOfLeaves - <span class="number">1</span>) / Math.log(<span class="number">2</span>)) + <span class="number">2</span>);</div><div class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>) (Math.pow(<span class="number">2</span>, maxHeight) - <span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] values = &#123; <span class="number">1</span>, <span class="number">7</span>, -<span class="number">4</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">12</span>, <span class="number">2</span> &#125;;</div><div class="line">		SegmentTree tree = SegmentTree.initialize(values);</div><div class="line">		System.out.println(tree.maxValue(<span class="number">0</span>, values.length - <span class="number">1</span>));</div><div class="line">		System.out.println(tree.maxValue(<span class="number">0</span>, values.length - <span class="number">4</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>When updating the value of the input array, only the corresponding leaf and its ancestors are changed. Unfortunately, the tree is too fixed to insert/delete a value.</p>
+<p>Last question, what is the maximal height of the segment tree when the number of leaves is n? Okay, you can find it from the code.</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -194,88 +229,89 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/06/22/segment-tree/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/14/binary-index-tree/" class="archive-article-date">
-  	<time datetime="2017-06-14T15:08:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-14</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/14/binary-index-tree/">Binary Index Tree</a>
-    </h1>
+  
+    <a href="/2017/06/14/binary-index-tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Binary Index Tree</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">data structure</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">tree</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/05/hello-world/" class="archive-article-date">
-  	<time datetime="2017-06-05T01:00:26.024Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/05/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -298,8 +334,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
